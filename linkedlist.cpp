@@ -8,14 +8,14 @@
 
 using namespace std;
 
-//Node Structure
+// Node Structure
 struct Node {
     int data;
     Node* next;
     Node(int val) : data(val), next(nullptr) {}
 };
 
-// Class for linkedlist
+// Class for linked list
 class LinkedList {
 private:
     Node* head;
@@ -24,14 +24,14 @@ public:
     // Constructor
     LinkedList() : head(nullptr) {}
 
-    // insterting at the start
+    // Insert at the start
     void insertAtBeginning(int value) {
         Node* newNode = new Node(value);
         newNode->next = head;
         head = newNode;
     }
 
-    // insterting at the end
+    // Insert at the end
     void insertAtEnd(int value) {
         Node* newNode = new Node(value);
         if (head == nullptr) {
@@ -45,14 +45,13 @@ public:
         temp->next = newNode;
     }
 
-    // deleting the node which user want
+    // Delete the node with the specified value
     void deleteNode(int value) {
         if (head == nullptr) {
             cout << "The list is empty. Nothing to delete." << endl;
             return;
         }
 
-        
         if (head->data == value) {
             Node* temp = head;
             head = head->next;
@@ -61,7 +60,6 @@ public:
             return;
         }
 
-    
         Node* current = head;
         Node* previous = nullptr;
         while (current != nullptr && current->data != value) {
@@ -69,7 +67,6 @@ public:
             current = current->next;
         }
 
-       
         if (current == nullptr) {
             cout << "Node with value " << value << " not found." << endl;
             return;
@@ -80,7 +77,7 @@ public:
         cout << "Node with value " << value << " deleted." << endl;
     }
 
-    // Printing the Linkedlist
+    // Print the Linked List
     void printList() const {
         Node* temp = head;
         if (temp == nullptr) {
@@ -95,6 +92,46 @@ public:
         cout << endl;
     }
 
+    // Reverse the Linked List (Added this using ChatGPT)
+    void reverse() {
+        Node* prev = nullptr;
+        Node* current = head;
+        Node* next = nullptr;
+        while (current != nullptr) {
+            next = current->next; // Store next node
+            current->next = prev; // Reverse the link
+            prev = current;       // Move prev to this node
+            current = next;       // Move to next node
+        }
+        head = prev; // Update head to new first node
+    }
+
+    // Sort the Linked List using Bubble Sort (Added this using ChatGPT)
+    void sort() { 
+        if (head == nullptr || head->next == nullptr) return; // Empty or single-node list
+
+        bool swapped;
+        Node* ptr1;
+        Node* lptr = nullptr;
+
+        do {
+            swapped = false;
+            ptr1 = head;
+
+            while (ptr1->next != lptr) {
+                if (ptr1->data > ptr1->next->data) {
+                    // Swap data
+                    int temp = ptr1->data;
+                    ptr1->data = ptr1->next->data;
+                    ptr1->next->data = temp;
+                    swapped = true;
+                }
+                ptr1 = ptr1->next;
+            }
+            lptr = ptr1;
+        } while (swapped);
+    }
+
     // Destructor
     ~LinkedList() {
         while (head != nullptr) {
@@ -105,7 +142,7 @@ public:
     }
 };
 
-//Main function and a few tests
+// Main function and a few tests
 int main() {
     LinkedList list;
     int choice, value;
@@ -116,7 +153,9 @@ int main() {
         cout << "2. Insert at end" << endl;
         cout << "3. Delete node" << endl;
         cout << "4. Print list" << endl;
-        cout << "5. Exit" << endl;
+        cout << "5. Reverse list" << endl;
+        cout << "6. Sort list" << endl;
+        cout << "7. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -141,6 +180,14 @@ int main() {
                 list.printList();
                 break;
             case 5:
+                list.reverse();
+                cout << "List reversed." << endl;
+                break;
+            case 6:
+                list.sort();
+                cout << "List sorted." << endl;
+                break;
+            case 7:
                 cout << "Exiting..." << endl;
                 return 0;
             default:
